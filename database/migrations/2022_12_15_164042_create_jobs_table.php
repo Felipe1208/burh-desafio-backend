@@ -13,20 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('jobs', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('cpf', 11)->unique();
-            $table->date('birth_date');
+            $table->string('tittle');
+            $table->string('description', 240);
+            $table->foreignId('job_type_id')->constrained();
+            $table->float('salary');
+            $table->time('start_time');
+            $table->time('end_time');
 
             $table->timestamps();
             $table->softDeletes();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('jobs');
     }
 };
