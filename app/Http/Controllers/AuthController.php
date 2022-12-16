@@ -10,8 +10,6 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-
-
         $name = $request->name;
 
         $cpf = $request->cpf;
@@ -22,13 +20,16 @@ class AuthController extends Controller
 
         $password = $request->password;
 
-        User::firstOrCreate([
+        $user = User::firstOrCreate([
             'name' => $name,
             'cpf' => $cpf,
             'birth_date' => $birthDate,
             'email' => $email,
-            'password' => $password,
+            'password' => bcrypt($password),
         ]);
+
+        $token = $user->createToken('JWT');
+        return response()->json($token->plainTextToken, 200);
     }
 
     public function login(Request $request)

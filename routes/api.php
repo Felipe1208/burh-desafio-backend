@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\JobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post("/register", [AuthController::class, 'register'])->name('auth.register');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
+Route::prefix('/companies')->group(function() {
+    Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
+});
+
+Route::prefix('/jobs')->group(function(){
+    Route::post('/', [JobController::class, 'store'])->name('jobs.store');
+});
