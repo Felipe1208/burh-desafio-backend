@@ -2,34 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request): JsonResponse
     {
-        $name = $request->name;
+        $validated = $request->validated();
 
-        $cpf = $request->cpf;
+        $validated['password'] = bcrypt($validated['password']);
 
-        $birthDate = $request->birth_date;
-
-        $email = $request->email;
-
-        $password = $request->password;
-
-        $user = User::firstOrCreate([
-            'name' => $name,
-            'cpf' => $cpf,
-            'birth_date' => $birthDate,
-            'email' => $email,
-            'password' => bcrypt($password),
-        ]);
+        $user = User::create($validated);
 
         $token = $user->createToken('JWT');
-        return response()->json($token->plainTextToken, 200);
+
+        $data = [
+            "user" => $user,
+            "token" => $token->plainTextToken
+        ];
+
+        return response()->json($data, Response::HTTP_CREATED);
     }
 
     public function login(Request $request)

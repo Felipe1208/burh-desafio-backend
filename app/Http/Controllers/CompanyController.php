@@ -2,30 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCompanyRequest;
 use App\Models\Company;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class CompanyController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreCompanyRequest $request): JsonResponse
     {
-        $name = $request->name;
+        $validated = $request->validated();
 
-        $cnpj = $request->cnpj;
+        $company = Company::create($validated);
 
-        $description = $request->description;
-
-        $planId = $request->plan_id;
-
-        $company = Company::firstOrCreate([
-            'name' => $name,
-            'description' => $description,
-            'cnpj' => $cnpj,
-            'plan_id' => $planId,
-
-        ]);
-
-        return response()->json($company, 201);
+        return response()->json($company, Response::HTTP_CREATED);
     }
 
 }

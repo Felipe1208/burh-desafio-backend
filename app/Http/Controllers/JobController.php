@@ -2,37 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreJobRequest;
 use App\Models\Job;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class JobController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreJobRequest $request): JsonResponse
     {
-        $companyId = $request->company_id;
+        $validated = $request->validated();
 
-        $description = $request->description;
+        $job = Job::create($validated);
 
-        $jobtypeId = $request->job_type_id;
-
-        $salary = $request->salary;
-
-        $startTime = $request->start_time;
-
-        $endTime = $request->end_time;
-
-        $tittle = $request->tittle;
-
-        $jobs = Job::firstOrCreate([
-            'company_id' => $companyId,
-            'description' => $description,
-            'job_type_id' => $jobtypeId,
-            'salary' => $salary,
-            'start_time' => $startTime,
-            'end_time' => $endTime,
-            'tittle' => $tittle
-        ]);
-
-        return response()->json($jobs);
+        return response()->json($job, Response::HTTP_CREATED);
     }
 }
