@@ -35,3 +35,5 @@ Route::prefix('/jobs')->group(function() {
 });
 
 Route::get("/users", [UserController::class, 'index'])->name('users.index');
+
+Route::middleware('auth:sanctum')->post("/users/subscribe/{job}", [UserController::class, 'subscribe'])->name('users.subscribe');
