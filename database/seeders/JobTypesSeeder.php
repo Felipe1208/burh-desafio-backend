@@ -15,14 +15,17 @@ class JobTypesSeeder extends Seeder
     public function run()
     {
         JobType::firstOrCreate([
+            'id' => 1,
             'type' => 'CLT',
         ]);
 
         JobType::firstOrCreate([
+            'id' => 2,
             'type' => 'PJ',
         ]);
 
         JobType::firstOrCreate([
+            'id' => 3,
             'type' => 'Estágio',
         ]);
     }

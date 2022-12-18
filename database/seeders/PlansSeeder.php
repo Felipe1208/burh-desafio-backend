@@ -15,10 +15,12 @@ class PlansSeeder extends Seeder
     public function run()
     {
         Plan::firstOrCreate([
+            'id' => 1,
             'plan' => 'Free',
         ]);
 
         Plan::firstOrCreate([
+            'id' => 2,
             'plan' => 'Premium',
         ]);
     }

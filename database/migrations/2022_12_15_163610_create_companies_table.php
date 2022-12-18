@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description', 240);
-            $table->foreignId('plan_id')->constrained();
+            $table->foreignId('plan_id')->default(1)->constrained();
             $table->string('cnpj', 14)->unique();
 
 
