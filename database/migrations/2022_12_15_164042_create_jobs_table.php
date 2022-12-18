@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('description', 240);
             $table->foreignId('job_type_id')->constrained();
             $table->foreignId('company_id')->constrained();
-            $table->float('salary');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->float('salary')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

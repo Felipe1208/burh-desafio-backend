@@ -27,9 +27,9 @@ class StoreJobRequest extends FormRequest
             'tittle' => 'required',
             'description' => 'required|max:240',
             'job_type_id' => 'required|numeric|exists:job_types,id',
-            'salary' => 'required',
-            'start_time' => 'required|date_format:H:i:s',
-            'end_time' => 'required|date_format:H:i:s',
+            'salary' => 'required_unless:job_type_id,2',
+            'start_time' => 'required_unless:job_type_id,2|date_format:H:i:s|required_with:end_time',
+            'end_time' => 'required_unless:job_type_id,2|date_format:H:i:s|required_with:start_time',
             'company_id' => 'required|numeric|exists:companies,id'
         ];
     }
