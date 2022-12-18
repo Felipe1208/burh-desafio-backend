@@ -19,6 +19,7 @@ class UserController extends Controller
                 ->orWhere('cpf', 'like', "%$request->search%")
                 ->orWhere('email', 'like', "%$request->search%")
         )
+            ->with('jobs')
             ->get();
 
         return response()->json($users);
