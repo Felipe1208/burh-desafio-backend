@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Company extends BaseModel
 {
@@ -16,5 +15,20 @@ class Company extends BaseModel
         'plan_id',
         'cnpj',
     ];
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+    public function exceededJobsQuota(): bool
+    {
+        $quota = [
+            Plan::FREE => Plan::MAX_JOBS_FOR_FREE,
+            Plan::PREMIUM => Plan::MAX_JOBS_FOR_PREMIUM,
+        ];
+
+        return $this->jobs_count >= $quota[$this->plan_id];
+    }
 
 }
