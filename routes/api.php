@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +33,5 @@ Route::prefix('/companies')->group(function() {
 Route::prefix('/jobs')->group(function() {
     Route::post('/', [JobController::class, 'store'])->name('jobs.store');
 });
+
+Route::get("/users", [UserController::class, 'index'])->name('users.index');
