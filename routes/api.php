@@ -29,6 +29,6 @@ Route::prefix('/companies')->group(function() {
     Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
 });
 
-Route::prefix('/jobs')->group(function(){
+Route::prefix('/jobs')->group(function() {
     Route::post('/', [JobController::class, 'store'])->name('jobs.store');
 });

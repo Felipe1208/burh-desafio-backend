@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\JobType;
+use App\Rules\TotalTime;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreJobRequest extends FormRequest
@@ -32,13 +33,19 @@ class StoreJobRequest extends FormRequest
             $salaryRule[] = 'min:1212';
         }
 
+        $endTimeRule = [$requiredUnlessPJ, 'date_format:H:i:s', 'required_with:start_time'];
+
+        if ($this->job_type_id == JobType::ESTAGIO) {
+            $endTimeRule[] = new TotalTime;
+        }
+
         return [
-            'tittle' => 'required',
+            'title' => 'required',
             'description' => 'required|max:240',
             'job_type_id' => 'required|numeric|exists:job_types,id',
             'salary' => $salaryRule,
             'start_time' => [$requiredUnlessPJ, 'date_format:H:i:s', 'required_with:end_time'],
-            'end_time' => [$requiredUnlessPJ, 'date_format:H:i:s', 'required_with:start_time'],
+            'end_time' => $endTimeRule,
             'company_id' => 'required|numeric|exists:companies,id'
         ];
     }
