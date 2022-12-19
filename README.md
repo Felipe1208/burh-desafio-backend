@@ -14,12 +14,8 @@ Depois disso, clone o repositório em sua máquina, entre na pasta e suba os con
 ```
 $ git clone https://github.com/Felipe1208/burh-desafio-backend
 $ cd burh-desafio-backend
-$ docker-compose -f "docker-compose.yml" up -d --build
-```
-
-Copie o arquivo `.env.example` para `.env`:
-```
 $ cp .env.example .env
+$ docker-compose -f "docker-compose.yml" up -d --build
 ```
 
 Acesse o container com o seguinte comando:
