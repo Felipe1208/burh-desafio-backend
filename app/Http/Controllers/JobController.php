@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\JobQuotaExceededException;
 use App\Http\Requests\StoreJobRequest;
 use App\Models\Company;
 use App\Models\Job;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -18,7 +18,7 @@ class JobController extends Controller
         $company = Company::withCount('jobs')->find($validated['company_id']);
 
         if ($company->exceededJobsQuota()) {
-            throw new Exception("Limite de vagas excedido!", Response::HTTP_UNPROCESSABLE_ENTITY);
+            throw new JobQuotaExceededException();
         }
 
         $job = Job::create($validated);

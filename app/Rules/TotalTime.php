@@ -23,6 +23,10 @@ class TotalTime implements DataAwareRule, InvokableRule
 
     public function __invoke($attribute, $value, $fail)
     {
+        if (! isset($this->data["start_time"]) || ! isset($this->data["end_time"])) {
+            return;
+        }
+
         $startTime = Carbon::parse($this->data["start_time"]);
         $endTime = Carbon::parse($this->data["end_time"]);
 

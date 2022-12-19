@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserAlreadySubscribedException;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\UserJob;
-use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $users = User::when(
             isset($request->search),
@@ -32,7 +33,7 @@ class UserController extends Controller
             ->first();
 
         if ($subscription) {
-            throw new Exception("Usuário já cadastrado nessa vaga!", Response::HTTP_CONFLICT);
+            throw new UserAlreadySubscribedException();
         }
 
         $userJob = UserJob::firstOrCreate([

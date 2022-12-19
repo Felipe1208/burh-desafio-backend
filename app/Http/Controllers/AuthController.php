@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,14 +29,14 @@ class AuthController extends Controller
         return response()->json($data, Response::HTTP_CREATED);
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('JWT');
-            return response()->json($token->plainTextToken, 200);
+            return response()->json($token->plainTextToken);
         }
 
-        return response()->json('Usuario invalido', 401);
+        return response()->json('Usuario inválido', Response::HTTP_UNAUTHORIZED);
     }
 }

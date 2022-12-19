@@ -9,7 +9,6 @@ class Company extends BaseModel
     use HasFactory;
 
     protected $fillable = [
-        'company_id',
         'name',
         'description',
         'plan_id',

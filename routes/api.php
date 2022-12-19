@@ -19,15 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post("/register", [AuthController::class, 'register'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
 Route::prefix('/companies')->group(function() {
     Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
+    Route::put('/{company}/change-plan/{plan}', [CompanyController::class, 'changePlan'])->name('companies.change-plan');
 });
 
 Route::prefix('/jobs')->group(function() {
